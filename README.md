@@ -11,7 +11,7 @@ python -m pip install -r requirements.txt
 mkdocs serve
 ```
 
-然后打开终端提示的本地地址。网站内容位于 `2026-spring/`，每年可以复制一个新的年度目录并更新 `mkdocs.yml` 中的 `docs_dir` 和导航。
+然后打开终端提示的本地地址。网站内容位于 `2026-fall/`，每年可以复制一个新的年度目录并更新 `mkdocs.yml` 中的 `docs_dir` 和导航。
 
 ## 发布
 
@@ -21,7 +21,7 @@ mkdocs serve
 
 ```text
 .
-├── 2026-spring/       # 2026 春季课程内容
+├── 2026-fall/         # 2026 秋季课程内容
 ├── .github/workflows/  # GitHub Pages 自动部署
 ├── mkdocs.yml         # MkDocs 配置
 └── requirements.txt    # Python 依赖

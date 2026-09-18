@@ -4,11 +4,7 @@ site_author: PKU-PACIFIC Lab
 site_url: https://pku-pacific-lab-team.github.io/Course-Modern-SoC/
 copyright: Copyright &copy; 2026 School of Integrated Circuits, Peking University
 
-repo_url: https://github.com/pku-pacific-lab-team/Course-Modern-SoC
-repo_name: GitHub Repo
-edit_uri: edit/main/2026-spring/
-
-docs_dir: 2026-spring
+docs_dir: 2026-fall
 
 theme:
   name: material
@@ -41,7 +37,6 @@ theme:
     - navigation.footer
     - content.code.copy
     - content.code.annotate
-    - content.action.view
 
 markdown_extensions:
   - admonition
