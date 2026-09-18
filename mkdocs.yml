@@ -1,0 +1,74 @@
+site_name: 现代 SoC 芯片架构设计
+site_description: 北京大学现代 SoC 芯片架构设计课程实验指导
+site_author: PKU-PACIFIC Lab
+site_url: https://pku-pacific-lab-team.github.io/Course-Modern-SoC/
+copyright: Copyright &copy; 2026 School of Integrated Circuits, Peking University
+
+repo_url: https://github.com/pku-pacific-lab-team/Course-Modern-SoC
+repo_name: GitHub Repo
+edit_uri: edit/main/2026-spring/
+
+docs_dir: 2026-spring
+
+theme:
+  name: material
+  language: zh
+  logo: assets/brand/pku_logo.png
+  favicon: assets/brand/pku_logo_red.png
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/refresh-auto
+        name: 跟随系统主题
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: pink
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到深色主题
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: pink
+      toggle:
+        icon: material/weather-night
+        name: 切换到浅色主题
+  font:
+    code: JetBrainsMono
+  features:
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - content.action.view
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.arithmatex
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+extra_css:
+  - assets/extra.css
+
+extra_javascript:
+  - assets/extra.js
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML
+
+nav:
+  - 课程主页: index.md
+  - Lab 1: lab-1.md
+  - Lab 2: lab-2.md
+  - Lab 3: lab-3.md
+  - Final Project: final-project.md
