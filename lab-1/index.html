@@ -1,0 +1,1630 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="北京大学现代 SoC 芯片架构设计课程实验指导">
+      
+      
+        <meta name="author" content="PKU-PACIFIC Lab">
+      
+      
+        <link rel="canonical" href="https://pku-pacific-lab-team.github.io/Course-Modern-SoC/lab-1/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../lab-2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/brand/pku_logo_red.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Lab 1 - 现代 SoC 芯片架构设计</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrainsMono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrainsMono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-1gem5" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="现代 SoC 芯片架构设计" class="md-header__button md-logo" aria-label="现代 SoC 芯片架构设计" data-md-component="logo">
+      
+  <img src="../assets/brand/pku_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            现代 SoC 芯片架构设计
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="跟随系统主题"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="跟随系统主题" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.68 6h-1.36L7 16h2l.73-2h4.54l.73 2h2zm-2.38 6.5L12 8l1.7 4.5zm7.1 7.9L19 22h-5v-5l2 2c2.39-1.39 4-4.05 4-7 0-4.41-3.59-8-8-8s-8 3.59-8 8c0 2.95 1.61 5.53 4 6.92v2.24C4.47 19.61 2 16.1 2 12 2 6.5 6.5 2 12 2s10 4.5 10 10c0 3.53-1.83 6.62-4.6 8.4"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="切换到深色主题"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到深色主题" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="切换到浅色主题"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到浅色主题" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="现代 SoC 芯片架构设计" class="md-nav__button md-logo" aria-label="现代 SoC 芯片架构设计" data-md-component="logo">
+      
+  <img src="../assets/brand/pku_logo.png" alt="logo">
+
+    </a>
+    现代 SoC 芯片架构设计
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程主页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实验目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、环境准备
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、环境准备">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wsl2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关于 WSL2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gem5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、安装 gem5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、安装 gem5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 安装依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 获取源码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 编译
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、实验任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、实验任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：跑通第一个仿真
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：读懂并修改配置脚本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="任务 2：读懂并修改配置脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 脚本已经支持哪些参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 动手：让脚本能把参数传给被模拟的程序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 验收
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：用模拟器做一次设计空间探索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="任务 3：用模拟器做一次设计空间探索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 关于负载：埃拉托色尼筛法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 准备负载
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 先做一个简单估算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-l2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 扫描 L2 容量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、提交要求
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、提交要求">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交一个压缩包
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        报告内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其他说明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、参考资料
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../final-project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Final Project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实验目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、环境准备
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、环境准备">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wsl2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关于 WSL2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gem5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、安装 gem5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、安装 gem5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 安装依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 获取源码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 编译
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、实验任务
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、实验任务">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 1：跑通第一个仿真
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 2：读懂并修改配置脚本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="任务 2：读懂并修改配置脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 脚本已经支持哪些参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 动手：让脚本能把参数传给被模拟的程序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 验收
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务 3：用模拟器做一次设计空间探索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="任务 3：用模拟器做一次设计空间探索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 关于负载：埃拉托色尼筛法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 准备负载
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 先做一个简单估算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-l2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 扫描 L2 容量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、提交要求
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、提交要求">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交一个压缩包
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        报告内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其他说明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、参考资料
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lab-1gem5">Lab 1：gem5 模拟器入门</h1>
+<h2 id="_1">实验目标</h2>
+<p>gem5 是一个开源的计算机体系结构模拟器，官方对它的定义是：</p>
+<blockquote>
+<p>gem5 is a modular discrete event driven computer system simulator platform.
+—— <a href="https://www.gem5.org/documentation/learning_gem5/introduction/">Learning gem5: Introduction</a></p>
+</blockquote>
+<p>这句话里有三个关键词。<strong>模块化（modular）</strong>：系统由可替换、可重新参数化的部件搭成；<strong>离散事件驱动（discrete event driven）</strong>：时间以事件为单位推进，而不是按真实时钟流逝；<strong>平台（platform）</strong>：gem5 提供的是一堆预制部件，而不是一个固定的模拟器。</p>
+<p>gem5 由 C++ 和 Python 两部分组成：C++ 负责底层部件的时序行为，Python 负责描述"这台机器由哪些部件构成、怎么连接、参数是多少"。正因为这种分工，探索不同的 SoC 架构——加速器性能、互连拓扑、存储带宽——通常只需要改 Python 配置脚本，而不必改动模拟器本身。</p>
+<p>gem5 有两种运行模式：<strong>全系统模式（FS mode）</strong>模拟包含设备和操作系统的完整系统；<strong>系统调用仿真模式（SE mode）</strong>只运行用户态程序，系统调用由模拟器直接代为完成。本次实验全程使用 SE 模式。</p>
+<p>完成本次实验后，你应当能够：</p>
+<ol>
+<li>在 Linux 环境下从源码编译 gem5；</li>
+<li>读懂 gem5 的 Python 配置脚本，理解 SimObject、端口（port）与内存系统的连接关系，并能按需修改；</li>
+<li>把自己编写的程序作为负载在 gem5 上运行，从 <code>stats.txt</code> 中提取统计量，并用它回答一个具体的架构设计问题。</li>
+</ol>
+<h2 id="_2">一、环境准备</h2>
+<p>gem5 只能在 Linux 下编译运行。本讲义的依赖列表、编译命令和全部实验数据都是在 <strong>Ubuntu 22.04</strong> 上验证的。其他发行版或版本的包名、依赖版本可能有差异，需要自行解决。</p>
+<p>Windows 用户常见的三种做法，本实验都接受，请自行选择：</p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WSL2</td>
+<td>编译速度接近原生，可直接配合 VS Code 使用，安装也最省事</td>
+</tr>
+<tr>
+<td>虚拟机（VMware / VirtualBox）</td>
+<td>配置简单，但编译较慢</td>
+</tr>
+<tr>
+<td>双系统</td>
+<td>性能最好，但安装麻烦、切换需要重启</td>
+</tr>
+</tbody>
+</table>
+<p>如果你已经有可用的 Linux 环境（实验室服务器、云主机等），直接用即可。</p>
+<h3 id="wsl2">关于 WSL2</h3>
+<p>安装方法可以参考微软官方文档：</p>
+<ul>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install">安装 WSL</a></li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/wsl/basic-commands">WSL 的基本命令</a>（列出、迁移、卸载发行版等）</li>
+</ul>
+<p>两点补充：</p>
+<ul>
+<li>安装时可以直接指定本实验验证过的发行版：<code>wsl --install -d Ubuntu-22.04</code>；装好后用 <code>wsl -l -v</code> 确认 <code>VERSION</code> 一列是 <code>2</code>。</li>
+<li><strong>预留磁盘空间</strong>：gem5 源码加编译产物大约需要 <strong>7 GB</strong>。WSL 默认装在 C 盘，如果 C 盘紧张，可按上面第二篇文档里 <code>wsl --manage</code> 的说明把发行版迁到其他盘。</li>
+</ul>
+<h2 id="gem5">二、安装 gem5</h2>
+<div class="admonition danger">
+<p class="admonition-title">官方 Building 页的依赖列表在 Ubuntu 22.04 上装不上</p>
+<p>gem5 官方文档 <a href="https://www.gem5.org/documentation/learning_gem5/part1/building/">Building gem5</a> 给出的依赖命令里包含 <code>python-dev</code> 和 <code>python</code> 两个包，它们在 Ubuntu 20.04 之后<strong>已经不存在</strong>，照抄会导致整条 <code>apt install</code> 失败。该页面至今未更新。</p>
+<p>请使用下面这份在 Ubuntu 22.04 上实测通过的列表。本实验中凡遇到本讲义与官方文档冲突之处，以本讲义为准。</p>
+</div>
+<h3 id="1">1. 安装依赖</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span>build-essential<span class="w"> </span>scons<span class="w"> </span>python3-dev<span class="w"> </span>git<span class="w"> </span>m4<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span>zlib1g<span class="w"> </span>zlib1g-dev<span class="w"> </span>libprotobuf-dev<span class="w"> </span>protobuf-compiler<span class="w"> </span>libprotoc-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span>libgoogle-perftools-dev<span class="w"> </span>libboost-all-dev<span class="w"> </span>libhdf5-serial-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span>libcapstone-dev<span class="w"> </span>libpng-dev<span class="w"> </span>libelf-dev<span class="w"> </span>pkg-config<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span>python3-venv<span class="w"> </span>wget<span class="w"> </span>cmake
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">apt 下载慢？</p>
+<p>国内网络下建议先更换为国内镜像源（清华 TUNA、阿里云、华为云均可），参考<a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">清华镜像源帮助页面</a>。</p>
+</div>
+<h3 id="2">2. 获取源码</h3>
+<p>gem5 的默认分支是滚动更新的，直接 <code>git clone</code> 取到的代码随时间变化，可能与本讲义对不上。<strong>本讲义的全部命令、输出和实验数据都基于 release <code>v25.1.0.1</code></strong>（对应 commit <code>c8222cc</code>），请指定这个版本：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>--branch<span class="w"> </span>v25.1.0.1<span class="w"> </span>https://github.com/gem5/gem5.git
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>gem5
+</code></pre></div>
+<p><code>--depth 1</code> 表示只取这个版本的快照、不下载完整提交历史，可以省下大量时间和流量。</p>
+<div class="admonition tip">
+<p class="admonition-title">clone 失败或过慢</p>
+<p>如果 <code>git clone</code> 中途报 <code>RPC failed</code> / <code>early EOF</code>，可以改为直接下载同一版本的压缩包（约 16 MB）：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>wget<span class="w"> </span>https://github.com/gem5/gem5/archive/refs/tags/v25.1.0.1.tar.gz
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>tar<span class="w"> </span>xzf<span class="w"> </span>v25.1.0.1.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mv<span class="w"> </span>gem5-25.1.0.1<span class="w"> </span>gem5<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>gem5
+</code></pre></div></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">怎么确认版本对不对</p>
+<p>gem5 没有 <code>--version</code> 选项，但每次运行都会在输出开头打印版本号：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gem5 version 25.1.0.1
+</code></pre></div>
+如果你用了别的版本，讲义里给出的 tick 数、缺失率等参考数值可能对不上，某些 API 也可能有变化。可以在 Lab 报告里注明你实际使用的版本。</p>
+</div>
+<h3 id="3">3. 编译</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>scons<span class="w"> </span>build/X86/gem5.opt<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+</code></pre></div>
+<p><code>-j</code> 后面是并行编译的任务数，一般取 CPU 核心数。</p>
+<p>编译成功的标志是最后出现这一行，且没有 <code>scons: ***</code> 开头的报错：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>scons: done building targets.
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">编译很慢，但不是卡死了</p>
+<p>编译过程中终端长时间没有新输出是正常的。助教在 64 核服务器上实测耗时 <strong>37 分钟</strong>，普通笔记本请按 <strong>1.5~2 小时</strong>预期。</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">不要照抄官方文档的编译目标</p>
+<p>官方文档编译的是 <code>build/ALL</code>，包含全部 ISA 和全部 Ruby 一致性协议，<strong>比 <code>build/X86</code> 慢得多</strong>。本实验只用 X86，请照上面写。</p>
+</div>
+<h2 id="_3">三、实验任务</h2>
+<p>本次实验共三个任务，分别对应三个层次：<strong>完整运行 gem5</strong>（任务 1）、<strong>改动 gem5 配置</strong>（任务 2）、<strong>基于 gem5 仿真器做简单的架构探索</strong>（任务 3）。</p>
+<h3 id="1_1">任务 1：跑通第一个仿真</h3>
+<p>gem5 源码自带一个已经编译好的测试程序 <code>tests/test-progs/hello/bin/x86/linux/hello</code>，不需要你自己编译。</p>
+<p>先用官方提供的最简配置脚本运行它：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./build/X86/gem5.opt<span class="w"> </span>configs/learning_gem5/part1/simple.py
+</code></pre></div>
+<p>这个配置里只有一个 CPU、一条内存总线和一个内存控制器，<strong>没有任何 cache</strong>：</p>
+<p><img alt="simple.py 所描述的系统" src="../assets/lab1/gem5-simple-system.png" /></p>
+<p><em>图 1　<code>simple.py</code> 所描述的系统结构。图片来自 gem5 官方文档 <a href="https://www.gem5.org/documentation/learning_gem5/part1/simple_config/">Creating a simple configuration script</a>。</em></p>
+<p>留意输出末尾的这两行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Hello world!
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Exiting @ tick 489304000 because exiting with last active thread context
+</code></pre></div>
+<p>再用带两级 cache 的配置跑<strong>同一个程序</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>./build/X86/gem5.opt<span class="w"> </span>configs/learning_gem5/part1/two_level.py
+</code></pre></div>
+<p>这个配置在 CPU 和内存总线之间插入了 L1 指令 cache、L1 数据 cache 和一个统一的 L2 cache：</p>
+<p><img alt="two_level.py 所描述的系统" src="../assets/lab1/gem5-two-level-system.png" /></p>
+<p><em>图 2　<code>two_level.py</code> 所描述的系统结构。图片来自 gem5 官方文档 <a href="https://www.gem5.org/documentation/learning_gem5/part1/cache_config/">Adding cache to the configuration script</a>。</em></p>
+<p><strong>请把两次运行的完整输出留下来。</strong></p>
+<p>除了终端输出，gem5 每次运行还会在 <code>m5out/</code> 目录下留下几个文件，本实验会反复用到其中两个：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stats.txt</code></td>
+<td>本次仿真的全部统计量</td>
+</tr>
+<tr>
+<td><code>config.ini</code></td>
+<td>本次仿真中所有部件的参数快照</td>
+</tr>
+</tbody>
+</table>
+<p>打开 <code>m5out/stats.txt</code>，找到开头的 <code>simSeconds</code>、<code>simTicks</code> 和 <code>simFreq</code> 三行——它们能说明 tick 究竟是什么单位。</p>
+<div class="admonition warning">
+<p class="admonition-title"><code>m5out/</code> 会被下一次运行覆盖</p>
+<p>gem5 默认总是输出到 <code>m5out/</code>，所以跑完 <code>two_level.py</code> 之后，<code>m5out/</code> 里已经是第二次运行的结果了。要同时保留多次运行的结果，用 <code>--outdir</code> 指定不同的输出目录：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>./build/X86/gem5.opt<span class="w"> </span>--outdir<span class="o">=</span>m5out_simple<span class="w"> </span>configs/learning_gem5/part1/simple.py
+</code></pre></div>
+<p>注意 <code>--outdir</code> 是 <strong>gem5 自己的选项</strong>，必须写在配置脚本路径<strong>之前</strong>；写在后面会被当成传给脚本的参数。后面的任务会经常用到它。</p>
+</div>
+<h3 id="2_1">任务 2：读懂并修改配置脚本</h3>
+<p>gem5 的配置脚本描述的是"这台机器由哪些部件组成、怎么连起来"。本任务分三步：先读懂脚本（2.1），再动手给它加一个新参数（2.2），最后验证（2.3）。</p>
+<p><strong>开始之前</strong>，请打开 <code>configs/learning_gem5/part1/simple.py</code> 和 <code>two_level.py</code>，对照上面两张图通读一遍，重点看清楚：</p>
+<ul>
+<li><code>System</code>、<code>SrcClockDomain</code>、<code>MemCtrl</code>、<code>X86TimingSimpleCPU</code> 这些 <strong>SimObject</strong> 分别扮演什么角色；</li>
+<li>端口是怎么连的：<code>cpu.icache_port</code>、<code>membus.cpu_side_ports</code>、<code>membus.mem_side_ports</code> 之间的连接关系；</li>
+<li>对照图 1 和图 2，<code>two_level.py</code> 比 <code>simple.py</code> 多做了什么，才把 cache 插进 CPU 和内存总线之间。</li>
+</ul>
+<p>官方文档的 <a href="https://www.gem5.org/documentation/learning_gem5/part1/simple_config/">Creating a simple configuration script</a> 和 <a href="https://www.gem5.org/documentation/learning_gem5/part1/cache_config/">Adding cache to the configuration script</a> 两页逐行讲解了这两个脚本，可以参照阅读。</p>
+<h4 id="21">2.1 脚本已经支持哪些参数</h4>
+<p>先看看 <code>two_level.py</code> 接受哪些参数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>./build/X86/gem5.opt<span class="w"> </span>configs/learning_gem5/part1/two_level.py<span class="w"> </span>--help
+</code></pre></div>
+<p>输出是：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>usage: two_level.py [-h] [--l1i_size L1I_SIZE] [--l1d_size L1D_SIZE]
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>                    [--l2_size L2_SIZE]
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>                    [binary]
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>positional arguments:
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  binary
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>options:
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  -h, --help           show this help message and exit
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  --l1i_size L1I_SIZE  L1 instruction cache size. Default: 16KiB
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>  --l1d_size L1D_SIZE  L1 data cache size. Default: 64KiB
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>  --l2_size L2_SIZE    L2 cache size. Default: 256KiB
+</code></pre></div>
+<p>也就是说，<strong>三个 cache 的容量已经是可配置的了</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--l1i_size</code></td>
+<td>16 KiB</td>
+</tr>
+<tr>
+<td><code>--l1d_size</code></td>
+<td>64 KiB</td>
+</tr>
+<tr>
+<td><code>--l2_size</code></td>
+<td>256 KiB</td>
+</tr>
+</tbody>
+</table>
+<p>任务 3 要用的 <code>--l2_size</code> 就在其中，<strong>不需要你添加，直接用即可</strong>。</p>
+<p>值得注意的是，打开 <code>two_level.py</code> 你会发现这三个参数在里面一行都找不到——它自己只声明了一个位置参数 <code>binary</code>。它们实际上声明在同目录的 <code>caches.py</code> 里，而且是写在 cache 类的<strong>类体</strong>中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">L2Cache</span><span class="p">(</span><span class="n">Cache</span><span class="p">):</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="sd">"""Simple L2 Cache with default values"""</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="c1"># Default parameters</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">size</span> <span class="o">=</span> <span class="s2">"256KiB"</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="o">...</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="n">SimpleOpts</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">"--l2_size"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">"L2 cache size. Default: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><code>SimpleOpts</code> 内部持有一个<strong>模块级</strong>的 <code>ArgumentParser</code>，所有配置脚本共用它。<code>two_level.py</code> 开头有一行 <code>from caches import *</code>，导入时 <code>caches.py</code> 的类体会被执行，这三个 <code>add_option</code> 就注册进了那个共享的 parser——所以命令行上写 <code>--l2_size</code> 才能生效。2.2 里你要添加的参数用的是同一套机制。</p>
+<h4 id="22">2.2 动手：让脚本能把参数传给被模拟的程序</h4>
+<p><code>two_level.py</code> 目前只能运行不带参数的程序。注意它的这一行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">process</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">binary</span><span class="p">]</span>
+</code></pre></div>
+<p><code>process.cmd</code> 就是被模拟程序看到的 <code>argv</code>，现在它只有 <code>argv[0]</code>——也就是说，凡是需要靠命令行参数来控制行为的程序（比如控制问题规模的程序），这个脚本都没法正确地把它跑起来。要给脚本补上这个能力。</p>
+<p>把 <code>two_level.py</code> 复制一份为 <code>two_level_args.py</code>（<strong>必须放在同一目录 <code>configs/learning_gem5/part1/</code> 下</strong>），然后做两处修改：</p>
+<ol>
+<li><strong>声明一个新的位置参数</strong>，用来接收要传给被模拟程序的若干个参数。写法仿照 <code>caches.py</code> 里 <code>--l2_size</code> 那一行；</li>
+<li><strong>修改 <code>process.cmd</code></strong>，把这些参数接在 <code>args.binary</code> 后面。</li>
+</ol>
+<p>关于 <code>SimpleOpts.add_option()</code> 怎么用——看它的实现就明白了（<code>configs/common/SimpleOpts.py</code>）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_option</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="sd">"""Call "add_option" to the global options parser"""</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="k">if</span> <span class="n">called_parse_args</span><span class="p">:</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        <span class="n">m5</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">"Can't add an option after calling SimpleOpts.parse_args"</span><span class="p">)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>它就是 argparse 的 <code>add_argument()</code> 的透传</strong>，只是名字叫 <code>add_option</code>，并且所有脚本共用同一个模块级 <code>parser</code>（就是 2.1 里说的那个）。因此 argparse 的全部用法都适用。</p>
+<p>本题的关键在于：你要接收的是<strong>数量不定</strong>的若干个参数（可能一个，也可能一个都没有）。请查阅 argparse 文档中 <code>add_argument()</code> 的 <strong><code>nargs</code></strong> 参数，选择合适的取值，并注意设置默认值。</p>
+<div class="admonition warning">
+<p class="admonition-title">声明必须写在 parse_args() 之前</p>
+<p><code>two_level.py</code> 中有一行 <code>args = SimpleOpts.parse_args()</code>。在它之后再调用 <code>add_option()</code> 会直接 <code>m5.fatal</code> 退出，报错 <code>Can't add an option after calling SimpleOpts.parse_args</code>。你新加的声明必须在这一行<strong>之前</strong>。</p>
+</div>
+<h4 id="23">2.3 验收</h4>
+<p>仍然用任务 1 的 <code>hello</code> 作为负载。<code>hello</code> 自己不读 <code>argv</code>，多给它几个参数它也照样打印 <code>Hello World!</code>，所以不能靠终端输出来判断参数有没有传进去——要看 gem5 的另一个输出文件 <strong><code>config.ini</code></strong>。</p>
+<p>gem5 每次运行都会在输出目录里生成 <code>config.ini</code>，它是本次仿真中<strong>所有 SimObject 的完整参数快照</strong>，其中就包括 <code>Process</code> 的 <code>cmd</code>。在 gem5 根目录下运行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>./build/X86/gem5.opt<span class="w"> </span>--outdir<span class="o">=</span>m5out_args<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span>configs/learning_gem5/part1/two_level_args.py<span class="w"> </span>--l2_size<span class="o">=</span>1MB<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span>tests/test-progs/hello/bin/x86/linux/hello<span class="w"> </span><span class="m">12345</span><span class="w"> </span>foo
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>grep<span class="w"> </span><span class="s1">'^cmd='</span><span class="w"> </span>m5out_args/config.ini
+</code></pre></div>
+<p>应当输出：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cmd=tests/test-progs/hello/bin/x86/linux/hello 12345 foo
+</code></pre></div>
+<p><code>cmd=</code> 对了，说明脚本改成功了。顺便在同一个 <code>config.ini</code> 里找到 <code>[system.l2cache]</code> 段，确认它的 <code>size=1048576</code>（1 MiB，默认值是 <code>262144</code> 即 256 KiB）——这说明 <code>--l2_size</code> 确实作用到了硬件配置上，而不只是被 argparse 解析了一下。任务 3 会大量依赖这一点。</p>
+<div class="admonition tip">
+<p class="admonition-title">三个容易卡住的地方</p>
+<ul>
+<li><code>binary</code> 是<strong>位置参数</strong>，不是 <code>--binary</code>。写成 <code>--binary=.../hello</code> 会被 argparse 拒绝。</li>
+<li>新脚本<strong>必须放在 <code>configs/learning_gem5/part1/</code> 目录下</strong>，因为它开头有 <code>from caches import *</code>。放到别处运行会报 <code>ModuleNotFoundError: No module named 'caches'</code>。</li>
+<li><code>binary</code> 和你新加的参数都是位置参数。argparse 在处理多个位置参数时有确定的匹配规则，如果发现 <code>cmd=</code> 里 <code>argv[0]</code> 的值不对（比如 <code>hello</code> 跑到后面去了，或者 gem5 报找不到可执行文件），检查一下两者的声明顺序和 <code>nargs</code> 取值。</li>
+</ul>
+</div>
+<h3 id="3_1">任务 3：用模拟器做一次设计空间探索</h3>
+<p>前两个任务都是在跑现成的仿真器配置。这个任务里，我们用 gem5 回答一个真实的 SoC 设计问题：<strong>这个负载应该配多大的 L2 cache？</strong></p>
+<h4 id="31">3.1 关于负载：埃拉托色尼筛法</h4>
+<p>本次实验使用的负载是埃拉托色尼筛法（Sieve of Eratosthenes），由古希腊数学家埃拉托色尼提出，用于求出 [2, N] 区间内的全部素数。算法流程很简单：</p>
+<ol>
+<li>将 [2, N] 从小到大排成一行；</li>
+<li>标出列表中第一个未被筛去的数，它是素数，然后筛去它的所有倍数；</li>
+<li>重复第 2 步，最后被标出的就是 [2, N] 内的所有素数。</li>
+</ol>
+<p>以 N = 10 为例：</p>
+<p><strong>a. 将 [2, 10] 排成一行</strong></p>
+<p><img alt="" src="../assets/lab1/sieve-1.png" /></p>
+<p><strong>b. 标出第一个数 2，筛去所有 2 的倍数</strong></p>
+<p><img alt="" src="../assets/lab1/sieve-2.png" /></p>
+<p><strong>c. 标出下一个未被筛去的数 3，筛去所有 3 的倍数</strong></p>
+<p><img alt="" src="../assets/lab1/sieve-3.png" /></p>
+<p><strong>d. 标出 5，筛去所有 5 的倍数</strong></p>
+<p><img alt="" src="../assets/lab1/sieve-4.png" /></p>
+<p><strong>e. 标出 7。此时所有被标出的数 2、3、5、7 就是 [2, 10] 内的全部素数</strong></p>
+<p><img alt="" src="../assets/lab1/sieve-5.png" /></p>
+<p>选这个算法作为负载，是因为它有两个对本实验很有用的性质：结果<strong>有明确的正确性判据</strong>（素数个数是确定的），以及它的访存行为集中在一个大小完全可控的数组上——这正是任务 3 要观察的东西。</p>
+<h4 id="32">3.2 准备负载</h4>
+<p>把上面的算法写成 <code>sieve.cpp</code>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdlib&gt;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="n">composite</span><span class="p">(</span><span class="n">N</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">composite</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">            </span><span class="o">++</span><span class="n">count</span><span class="p">;</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="p">)</span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">                </span><span class="n">composite</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"primes below %d: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">必须静态链接</p>
+<p>gem5 的 SE 模式没有动态链接器，动态链接的程序无法运行。编译时必须加 <code>-static</code>：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>g++<span class="w"> </span>-O2<span class="w"> </span>-static<span class="w"> </span>-o<span class="w"> </span>sieve<span class="w"> </span>sieve.cpp
+</code></pre></div></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">为什么用 <code>vector&lt;char&gt;</code> 而不是 <code>vector&lt;bool&gt;</code></p>
+<p>C++ 标准库会把 <code>vector&lt;bool&gt;</code> 按 bit 打包，工作集会缩小 8 倍，本任务要观察的现象就被掩盖了。请照上面写。</p>
+</div>
+<p>先在本机直接运行，确认结果正确：</p>
+<table>
+<thead>
+<tr>
+<th>N</th>
+<th>正确输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10,000</td>
+<td><code>primes below 10000: 1229</code></td>
+</tr>
+<tr>
+<td>200,000</td>
+<td><code>primes below 200000: 17984</code></td>
+</tr>
+<tr>
+<td>2,000,000</td>
+<td><code>primes below 2000000: 148933</code></td>
+</tr>
+</tbody>
+</table>
+<p>然后用任务 2 改好的脚本，在 gem5 上跑一次（约 1 分钟）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>./build/X86/gem5.opt<span class="w"> </span>configs/learning_gem5/part1/two_level_args.py<span class="w"> </span>./sieve<span class="w"> </span><span class="m">200000</span>
+</code></pre></div>
+<p>输出里应当出现 <code>primes below 200000: 17984</code>。<strong>如果出现的是 <code>primes below 10000: 1229</code>，说明命令行参数没有真正传到被模拟的程序里</strong>——回到任务 2 检查 <code>process.cmd</code>。这个错误不会抛任何异常，参数是被默默忽略的，程序用的是它自己的默认值 10000。</p>
+<h4 id="33">3.3 先做一个简单估算</h4>
+<p><strong>在跑任何仿真之前</strong>，先回答：当 N = 2,000,000 时，这个程序的主要工作集有多大？（提示：看 <code>composite</code> 这个数组占多少字节。）</p>
+<p>根据你算出的工作集大小，<strong>预测</strong>：L2 cache 要多大，性能才会出现明显改善？把你的预测写下来。</p>
+<h4 id="34-l2">3.4 扫描 L2 容量</h4>
+<p>用任务 2 改好的脚本，固定负载 N = 2,000,000，只改 L2 容量：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">for</span><span class="w"> </span>L2<span class="w"> </span><span class="k">in</span><span class="w"> </span>256kB<span class="w"> </span>512kB<span class="w"> </span>1MB<span class="w"> </span>2MB<span class="w"> </span>4MB<span class="w"> </span>8MB<span class="w"> </span>16MB<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span>./build/X86/gem5.opt<span class="w"> </span>--outdir<span class="o">=</span>out_L2<span class="nv">$L2</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">        </span>configs/learning_gem5/part1/two_level_args.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">        </span>--l2_size<span class="o">=</span><span class="nv">$L2</span><span class="w"> </span>./sieve<span class="w"> </span><span class="m">2000000</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">done</span>
+</code></pre></div>
+<p>每次运行约需 1 分钟。结果在各自 <code>out_L2*/stats.txt</code> 里，需要的统计量有三个：</p>
+<table>
+<thead>
+<tr>
+<th>统计量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>simSeconds</code></td>
+<td>被模拟机器上经过的时间（<strong>不是</strong>你等待的时间）</td>
+</tr>
+<tr>
+<td><code>system.cpu.dcache.overallMissRate::total</code></td>
+<td>L1 数据 cache 缺失率</td>
+</tr>
+<tr>
+<td><code>system.l2cache.overallMissRate::total</code></td>
+<td>L2 缺失率</td>
+</tr>
+</tbody>
+</table>
+<p>把七组数据整理成表格，并画出 <code>simSeconds</code> 随 L2 容量变化的曲线。</p>
+<h4 id="35">3.5 分析</h4>
+<p>请回答下面四个问题：</p>
+<ol>
+<li>七次运行的 <strong>L1 数据 cache 缺失率</strong>是多少？为什么改 L2 容量不影响它？</li>
+<li>曲线的<strong>拐点</strong>出现在哪个容量？这个位置和你在 3.3 里算出的工作集大小是什么关系？和你的预测一致吗？</li>
+<li>拐点之后继续增大 L2，性能还有提升吗？请用数据说明。</li>
+<li><strong>如果你来设计这颗 CPU</strong>，只考虑这一个负载，你会选多大的 L2？</li>
+</ol>
+<h2 id="_4">四、提交要求</h2>
+<h3 id="_5">交一个压缩包</h3>
+<p>打包成 <code>Lab1_学号_姓名.zip</code>，里面放两个文件：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Lab1_学号_姓名.pdf</code></td>
+<td>实验报告</td>
+</tr>
+<tr>
+<td><code>two_level_args.py</code></td>
+<td>任务 2 中你写的配置脚本（<strong>文件名保持不变</strong>）</td>
+</tr>
+</tbody>
+</table>
+<p>提交至教学网。截止时间以教学网公告为准。</p>
+<h3 id="_6">报告内容</h3>
+<p>按下面的顺序写即可。每一项都对应讲义里的一个位置，记录实验过程和结果即可。</p>
+<p><strong>0. 环境说明</strong></p>
+<ul>
+<li>用的是什么环境（WSL2 / 虚拟机 / 双系统）、发行版与版本</li>
+<li>gem5 版本、编译命令</li>
+<li>安装过程中卡住的地方和你的解决办法；一路顺利就写"无"</li>
+</ul>
+<p><strong>1. 任务 1</strong></p>
+<ul>
+<li><code>simple.py</code> 与 <code>two_level.py</code> 两次运行的完整输出，<strong>必须包含 <code>Exiting @ tick ...</code> 那一行</strong></li>
+<li>用一两句话回答：tick 是什么？和 <code>stats.txt</code> 中的 <code>simSeconds</code> 关系是什么？为什么同一个程序加了 cache 之后 tick 数会降这么多？</li>
+</ul>
+<p><strong>2. 任务 2</strong></p>
+<ul>
+<li><strong>你的改动</strong>：贴出 <code>two_level_args.py</code> 相对 <code>two_level.py</code> 改动的那两处，并说明你为什么这样选 <code>nargs</code> 的取值</li>
+<li><strong>2.3 的验收输出</strong>：<code>config.ini</code> 中的 <code>cmd=</code> 行，以及 <code>[system.l2cache]</code> 段的 <code>size=</code></li>
+</ul>
+<p><strong>3. 任务 3</strong></p>
+<ul>
+<li>3.2 中在 gem5 上运行 <code>./sieve 200000</code> 的输出</li>
+<li><strong>3.3 的计算与预测</strong>：工作集大小的计算过程（不是只给结果），以及你在看到任何仿真数据<strong>之前</strong>写下的预测</li>
+<li><strong>3.4 的数据表</strong>：七行，列为 L2 容量、<code>simSeconds</code>、L1d 缺失率、L2 缺失率；以及 <code>simSeconds</code> 随 L2 容量变化的曲线图</li>
+<li><strong>3.5 四个问题的回答</strong></li>
+</ul>
+<h3 id="_7">其他说明</h3>
+<ul>
+<li><strong>请自己运行仿真器得到实验数据。</strong> 仿真器版本不同导致数值有出入是正常的，<strong>趋势</strong>一致即可。</li>
+<li>实验报告没有格式要求，记录实验过程和结果即可，但<strong>每一个结论都要有数据支撑</strong>。</li>
+</ul>
+<h2 id="_8">五、参考资料</h2>
+<p>gem5 官方文档 <strong>Learning gem5</strong> 系列（英文）：</p>
+<ul>
+<li><a href="https://www.gem5.org/documentation/learning_gem5/introduction/">Introduction</a> —— gem5 是什么、两种运行模式、支持的 ISA 与 CPU 模型</li>
+<li><a href="https://www.gem5.org/documentation/learning_gem5/part1/building/">Building gem5</a> —— 编译流程与常见错误（⚠️ 依赖列表已过时，见第二节）</li>
+<li><a href="https://www.gem5.org/documentation/learning_gem5/part1/simple_config/">Creating a simple configuration script</a> —— 逐行讲解 <code>simple.py</code></li>
+<li><a href="https://www.gem5.org/documentation/learning_gem5/part1/cache_config/">Adding cache to the configuration script</a> —— 逐行讲解 <code>two_level.py</code> 与 <code>caches.py</code></li>
+<li><a href="https://www.gem5.org/documentation/learning_gem5/part1/gem5_stats/">Understanding gem5 statistics and output</a> —— <code>stats.txt</code> 中各统计量的含义</li>
+</ul>
+<p>其他：</p>
+<ul>
+<li><a href="https://www.gem5.org/">gem5 官网</a> 与 <a href="https://github.com/gem5/gem5">源码仓库</a>；本实验使用的版本：<a href="https://github.com/gem5/gem5/releases/tag/v25.1.0.1">v25.1.0.1</a></li>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">清华 TUNA 镜像源使用帮助</a></li>
+</ul>
+<p>本讲义中的系统结构图（图 1、图 2）取自 gem5 官方文档。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="上一页: 课程主页">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                课程主页
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../lab-2/" class="md-footer__link md-footer__link--next" aria-label="下一页: Lab 2">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Lab 2
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 School of Integrated Circuits, Peking University
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../assets/extra.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
