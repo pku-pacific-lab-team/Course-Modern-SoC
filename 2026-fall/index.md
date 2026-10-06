@@ -21,6 +21,7 @@
 
 ## 说明
 
+- Paper Sharing（论文分享）的形式说明与各期论文清单见 [Paper Sharing](paper-sharing/index.md) 页。
 - 实验安排可能随课程进度调整，实验数量与主题以本页表格为准。
 - 如本站内容与课堂或课程群通知不一致，以助教发布的通知为准。
 - 关于课程 Lab 与 Final Project 有任何问题请在课程微信群中留言，或联系助教（E-Mail: zhu_20021122[at]stu.pku.edu.cn / WeChat: ForzaSeb1122）。

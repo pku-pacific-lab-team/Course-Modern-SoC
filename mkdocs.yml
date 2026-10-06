@@ -63,6 +63,10 @@ extra_javascript:
 
 nav:
   - 课程主页: index.md
+  - Paper Sharing:
+    - 总说明: paper-sharing/index.md
+    - 第 1 期：分支预测: paper-sharing/session-1-branch.md
+    - 第 2 期：取指与前端: paper-sharing/session-2-frontend.md
   - Lab 1: lab-1.md
   - Lab 2: lab-2.md
   - Lab 3: lab-3.md
