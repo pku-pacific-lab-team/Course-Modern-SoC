@@ -128,7 +128,7 @@ gem5 源码自带一个已经编译好的测试程序 `tests/test-progs/hello/bi
 
 这个配置里只有一个 CPU、一条内存总线和一个内存控制器，**没有任何 cache**：
 
-![simple.py 所描述的系统](assets/lab1/gem5-simple-system.png)
+![simple.py 所描述的系统](../assets/lab1/gem5-simple-system.png)
 
 *图 1　`simple.py` 所描述的系统结构。图片来自 gem5 官方文档 [Creating a simple configuration script](https://www.gem5.org/documentation/learning_gem5/part1/simple_config/)。*
 
@@ -147,7 +147,7 @@ Exiting @ tick 489304000 because exiting with last active thread context
 
 这个配置在 CPU 和内存总线之间插入了 L1 指令 cache、L1 数据 cache 和一个统一的 L2 cache：
 
-![two_level.py 所描述的系统](assets/lab1/gem5-two-level-system.png)
+![two_level.py 所描述的系统](../assets/lab1/gem5-two-level-system.png)
 
 *图 2　`two_level.py` 所描述的系统结构。图片来自 gem5 官方文档 [Adding cache to the configuration script](https://www.gem5.org/documentation/learning_gem5/part1/cache_config/)。*
 
@@ -309,23 +309,23 @@ cmd=tests/test-progs/hello/bin/x86/linux/hello 12345 foo
 
 **a. 将 [2, 10] 排成一行**
 
-![](assets/lab1/sieve-1.png)
+![](../assets/lab1/sieve-1.png)
 
 **b. 标出第一个数 2，筛去所有 2 的倍数**
 
-![](assets/lab1/sieve-2.png)
+![](../assets/lab1/sieve-2.png)
 
 **c. 标出下一个未被筛去的数 3，筛去所有 3 的倍数**
 
-![](assets/lab1/sieve-3.png)
+![](../assets/lab1/sieve-3.png)
 
 **d. 标出 5，筛去所有 5 的倍数**
 
-![](assets/lab1/sieve-4.png)
+![](../assets/lab1/sieve-4.png)
 
 **e. 标出 7。此时所有被标出的数 2、3、5、7 就是 [2, 10] 内的全部素数**
 
-![](assets/lab1/sieve-5.png)
+![](../assets/lab1/sieve-5.png)
 
 选这个算法作为负载，是因为它有两个对本实验很有用的性质：结果**有明确的正确性判据**（素数个数是确定的），以及它的访存行为集中在一个大小完全可控的数组上——这正是任务 3 要观察的东西。
 

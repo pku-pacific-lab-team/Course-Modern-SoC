@@ -1,27 +1,31 @@
 # 现代 SoC 芯片架构设计
 
-北京大学集成电路学院《现代 SoC 芯片架构设计》课程实验网站。
+北京大学集成电路学院《现代 SoC 芯片架构设计》课程网站。
 
 **任课老师**：贾天宇
 
 **课程助教**：朱展彤
 
-本站发布课程 Lab 与 Final Project 的实验要求、环境配置、任务说明和提交方式。实验材料会随课程进度更新，请以本站最新版本为准。
+本站发布课程实验（Lab / Final Project）与 Paper Sharing（论文分享）的材料与安排，随课程进度更新，请以本站最新版本为准。
 
-## 实验安排
+## 实验（Lab）
 
 | 实验 | 主题 | 状态 |
 | --- | --- | --- |
-| [Lab 1](lab-1.md) | gem5 模拟器入门 | 已发布 |
-| [Lab 2](lab-2.md) | 待定 | 未发布 |
-| [Lab 3](lab-3.md) | 待定 | 未发布 |
-| [Final Project](final-project.md) | 待定 | 未发布 |
+| [Lab 1](lab/lab-1.md) | gem5 模拟器入门 | 已发布 |
+| [Lab 2](lab/lab-2.md) | 待定 | 未发布 |
+| [Final Project](lab/final-project.md) | 待定 | 未发布 |
 
 各次实验的提交要求与截止时间在对应实验页面中给出。
 
+## Paper Sharing（论文分享）
+
+每节课抽出 30–60 分钟做论文分享：每期一个主题，跟着课程进度走；每个主题分两个方向，每个方向推荐 2 篇有承接关系的论文，由 1–2 位同学认领。全学期 8 期，每人讲一次，约 15 分钟。
+
+形式说明、任务要求与各期论文清单见 [Paper Sharing](paper-sharing/index.md) 页。
+
 ## 说明
 
-- Paper Sharing（论文分享）的形式说明与各期论文清单见 [Paper Sharing](paper-sharing/index.md) 页。
 - 实验安排可能随课程进度调整，实验数量与主题以本页表格为准。
 - 如本站内容与课堂或课程群通知不一致，以助教发布的通知为准。
 - 关于课程 Lab 与 Final Project 有任何问题请在课程微信群中留言，或联系助教（E-Mail: zhu_20021122[at]stu.pku.edu.cn / WeChat: ForzaSeb1122）。
