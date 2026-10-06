@@ -67,6 +67,7 @@ nav:
     - 总说明: paper-sharing/index.md
     - 第 1 期：分支预测: paper-sharing/session-1-branch.md
     - 第 2 期：取指与前端: paper-sharing/session-2-frontend.md
+    - 第 3 期：乱序执行: paper-sharing/session-3-ooo.md
   - Lab:
     - Lab 1: lab/lab-1.md
     - Lab 2: lab/lab-2.md
