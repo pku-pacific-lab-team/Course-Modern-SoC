@@ -7,13 +7,13 @@
 
 **方向①**
 
-- [Tomasulo（IBM J.'67）](https://doi.org/10.1147/rd.111.0025) → [Smith & Pleszkun 精确中断（ISCA'85，读 IEEE TC'88 扩展版）](https://doi.org/10.1109/12.2159)
+- [Tomasulo（IBM J.'67）](https://doi.org/10.1147/rd.111.0025) → [Smith & Pleszkun 精确中断（ISCA'85，读 IEEE TC'88 扩展版）](https://doi.org/10.1109/12.4607)
 
 机制的出生证：Tomasulo 用标签（tag）和公共数据总线（CDB）让指令乱序执行——每条在飞指令有了唯一身份，假依赖自动断开，寄存器重命名就此诞生；但乱序完成破坏了顺序状态，精确中断成为必须偿还的债——Smith & Pleszkun 给出五种还法，最优的 ROB 方案只损失 3% 性能（强制按序则要损失 23%）。
 
 **方向②**
 
-- [Palacharla 复杂度有效超标量（ISCA'97）](https://doi.org/10.1145/264107.264201) → [Kilo-instruction（IEEE Micro'05）](https://doi.org/10.1109/MM.2005.49)
+- [Palacharla 复杂度有效超标量（ISCA'97）](https://doi.org/10.1145/264107.264201) → [Kilo-instruction（IEEE Micro'05）](https://doi.org/10.1109/MM.2005.53)
 
 窗口的两堵墙：Palacharla 用电路级仿真证明，窗口越大、发射越宽，唤醒/选择与旁路逻辑的延迟爆炸——窗口做大了，时钟却慢了；Kilo-instruction 则论证另一堵墙：主存延迟奔向 1000 周期时，128 项窗口性能跌去 45–65%，而 4096 项窗口只跌 15–40%——窗口值得做大，但不能天真地做大。
 
