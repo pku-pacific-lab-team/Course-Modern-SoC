@@ -69,6 +69,7 @@ nav:
     - 第 2 期：取指与前端: paper-sharing/session-2-frontend.md
     - 第 3 期：乱序执行: paper-sharing/session-3-ooo.md
     - 第 4 期：Cache 与内存层次: paper-sharing/session-4-cache.md
+    - 第 5 期：内存一致性: paper-sharing/session-5-consistency.md
   - Lab:
     - Lab 1: lab/lab-1.md
     - Lab 2: lab/lab-2.md
