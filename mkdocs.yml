@@ -70,7 +70,6 @@ nav:
     - 第 3 期：乱序执行: paper-sharing/session-3-ooo.md
     - 第 4 期：Cache 与内存层次: paper-sharing/session-4-cache.md
     - 第 5 期：内存一致性: paper-sharing/session-5-consistency.md
-    - 第 6 期：GPU 架构: paper-sharing/session-6-gpu.md
   - Lab:
     - Lab 1: lab/lab-1.md
     - Lab 2: lab/lab-2.md
