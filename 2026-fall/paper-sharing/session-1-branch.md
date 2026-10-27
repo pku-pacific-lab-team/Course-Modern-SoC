@@ -19,4 +19,4 @@
 
 **选读**：[Yeh & Patt（MICRO'91）](https://hps.ece.utexas.edu/pub/yeh_micro24.pdf)——两级自适应的源头，两个方向共同的祖先。
 
-**也欢迎自己找**：和"分支预测"相关即可，确定后提前发邮件告知助教（[zhu_20021122@stu.pku.edu.cn](mailto:zhu_20021122@stu.pku.edu.cn)）。
+**也欢迎自己找**：和"分支预测"相关即可，确定后提前发邮件告知助教（zhu_20021122[at]stu.pku.edu.cn）。
